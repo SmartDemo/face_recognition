@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import requests
 import time
+import os
 
 
 class spider():
@@ -16,8 +17,14 @@ class spider():
         chrome_options = Options()  # 后面的两个是固定写法 必须这么写
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
+        
+        """
+        chromedriver download from : https://chromedriver.chromium.org/downloads
+        """
 
         chrome_driver = 'C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe'
+        if not os.path.exists('C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe'):
+            assert "please download chromedriver first"
         self.driver = webdriver.Chrome(executable_path= chrome_driver,options=chrome_options)
 
         # 想观看浏览器运行情况就打开这里
