@@ -3,7 +3,7 @@ mtcnn mobilefacenets
 
 参考：https://github.com/xuexingyu24/MobileFaceNet_Tutorial_Pytorch
 
-##步骤：
+## 步骤
 
 1、生成数据集
 ```
