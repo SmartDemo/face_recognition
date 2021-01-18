@@ -1,22 +1,21 @@
-import os
-
-from MTCNN.MTCNN import create_mtcnn_net
+from MTCNN import create_mtcnn_net
 import torch
 from torchvision import transforms as trans
 import time
 import multiprocessing
+# from time import sleep
 from tqdm import *
 import csv
+import os
 import cv2
 import numpy as np
 
-from detect_model import get_detect_model
 from utils.align_trans import Face_alignment
 
 
-def get_feature_vector():
+def get_feature_vector(detect_model):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    detect_model = get_detect_model()
+
     test_transform = trans.Compose([
         trans.ToTensor(),
         trans.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])])
@@ -49,11 +48,10 @@ def get_feature_vector():
                 # print(f'这是第{i}趟')
             except Exception as e:
                 print(f'error:{e}')
-    f.close()
 
 
 def run_multiprocess(detect_model):
-    starttime = time.time()
+    start_time = time.time()
     processes = list()
     for i in range(0, 10):
         p = multiprocessing.Process(target=get_feature_vector, args=(detect_model,))
@@ -61,7 +59,7 @@ def run_multiprocess(detect_model):
         p.start()
     for process in processes:
         process.join()
-    print('Multiprocessing took {} seconds'.format(time.time() - starttime))
+    print('Multiprocessing took {} seconds'.format(time.time() - start_time))
 
 
 def extract_vector_fromcsv():
@@ -70,8 +68,6 @@ def extract_vector_fromcsv():
         columns = [row['feature_vector'] for row in reader]
     return columns
 
-
-if __name__ == "__main__":
-    get_feature_vector()
-#     run_multiprocess()
-#     extract_vector_fromcsv()
+# if __name__ == "__main__":
+# run_multiprocess()
+# extract_vector_fromcsv()
