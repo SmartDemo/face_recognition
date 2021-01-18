@@ -23,7 +23,7 @@ class spider():
         """
 
         chrome_driver = 'C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe'
-        if not os.path.exists('C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe'):
+        if not os.path.exists(chrome_driver):
             assert "please download chromedriver first"
         self.driver = webdriver.Chrome(executable_path= chrome_driver,options=chrome_options)
 
