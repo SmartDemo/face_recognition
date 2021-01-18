@@ -21,4 +21,3 @@ python MTCNN_MobileFaceNet.py
 ## 学习资料：
 * selenium包括webdriver配置：https://www.cnblogs.com/jiyu-hlzy/p/12158978.html#m
 
-* git上传github项目：https://www.cnblogs.com/dfsxh/articles/10959383.html
