@@ -6,7 +6,7 @@ import cv2
 import time
 from MTCNN.MTCNN_nets import *
 
-from MTCNN.utils.util import preprocess, nms, calibrate_box, convert_to_square, correct_bboxes
+from utils.util import preprocess, nms, calibrate_box, convert_to_square, correct_bboxes
 
 
 def create_mtcnn_net(image, mini_face, device, p_model_path=None, r_model_path=None, o_model_path=None):

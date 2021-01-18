@@ -73,5 +73,5 @@ def extract_vector_fromcsv():
 
 if __name__ == "__main__":
     get_feature_vector()
-#     run_multiprocess()
-#     extract_vector_fromcsv()
+    # run_multiprocess()
+    # extract_vector_fromcsv()
