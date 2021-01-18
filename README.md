@@ -18,3 +18,6 @@ python deal_feature_vector.py
 python MTCNN_MobileFaceNet.py
 ```
 
+## 学习资料：
+1、selenium包括webdriver配置：https://www.cnblogs.com/jiyu-hlzy/p/12158978.html#m
+2、git上传github项目：https://www.cnblogs.com/dfsxh/articles/10959383.html
