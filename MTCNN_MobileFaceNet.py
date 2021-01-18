@@ -15,15 +15,17 @@ import torch
 from torchvision import transforms as trans
 from PIL import Image, ImageDraw, ImageFont
 from utils.util import *
+from utils.align_trans import *
 from MTCNN import create_mtcnn_net
 from face_model import MobileFaceNet, l2_norm
-# from facebank import load_facebank, prepare_facebank
-from utils.align_trans import *
+from facebank import load_facebank, prepare_facebank
 import cv2
-import time
 from scipy.spatial.distance import pdist
-
-
+import csv
+import pathlib
+from tqdm import *
+from time import sleep 
+from deal_feature_vector import *
 
 # Linear Algebra Learning Sequence
 # Cosine Similarity
@@ -53,8 +55,10 @@ if __name__ == '__main__':
     detect_model.eval()
 
 
-    path = "images/Raj.jpg"
-    img = cv2.imread(path)
+    path = "images/1931女子偶像组合.jpg"
+    img=cv2.imdecode(np.fromfile(path,dtype=np.uint8),cv2.IMREAD_COLOR)
+
+    # img = cv2.imread(path)
     bboxes, landmarks = create_mtcnn_net(img, 32, device, p_model_path='MTCNN/weights/pnet_Weights.pt',
                                          r_model_path='MTCNN/weights/rnet_Weights',
                                          o_model_path='MTCNN/weights/onet_Weights.pt')
@@ -68,22 +72,18 @@ if __name__ == '__main__':
         emb = detect_model(test_transform(img).to(device).unsqueeze(0))
     for x in emb:
         a = x
-    
+        a = a.detach().numpy()
 
-    path1 = "images/Raj.jpg"
-    img1 = cv2.imread(path1)
-    faces1 = Face_alignment(img1,default_square= True,landmarks = landmarks)
-    
-    for img1 in faces1:
-        emb1 = detect_model(test_transform(img1).to(device).unsqueeze(0))
-    for x in emb1:
-        b = x
+    # get_feature_vector(detect_model) #得到feature_vector.csv
+    columns = extract_vector_fromcsv()
+    columns = [eval(column) for column in columns]
+    for column in columns:
+        column = np.array(column)
+        cos = cosin_dist(a,column)
+        print(cos)
 
-    a = a.detach().numpy()
-    b = b.detach().numpy()
-    cos = cosin_dist(a,b)
-    print(cos)
-    
+
+        
 
 
 
@@ -104,10 +104,10 @@ if __name__ == '__main__':
     #     print('facebank loaded')
     #     # targets: number of candidate x 512
     # image = cv2.imread(args.img)
-   
+
     # bboxes, landmarks = create_mtcnn_net(image, 32, device, p_model_path='MTCNN/weights/pnet_Weights.pt',
-    #                                      r_model_path='MTCNN/weights/rnet_Weights',
-    #                                      o_model_path='MTCNN/weights/onet_Weights.pt')
+    #                                     r_model_path='MTCNN/weights/rnet_Weights',
+    #                                     o_model_path='MTCNN/weights/onet_Weights.pt')
 
     # faces = Face_alignment(image, default_square = True,landmarks = landmarks)
 
